@@ -1,12 +1,14 @@
-from flask import Flask, render_template, request, redirect,url_for
+from flask import Flask, render_template, request, redirect,url_for, flash
 import sqlite3
-from database import get_db_connection, create_table
+from database import get_db_connection, create_tables
 from datetime import datetime
 
 
 app = Flask(__name__)
 
-create_table()
+app.secret_key = "devcontrol-secret"
+
+create_tables()
 
 def get_dashboard_data():
     conn = get_db_connection()
@@ -35,6 +37,34 @@ def index():
         total_saidas=total_saidas,
         veiculos_patio=veiculos_patio
     )
+
+@app.route("/veiculos", methods=["GET", "POST"])
+def veiculos():
+    conn = get_db_connection()
+
+    if request.method == "POST":
+        placa = request.form["placa"]
+        modelo = request.form["modelo"]
+        setor = request.form["setor"]
+
+        try:
+            conn.execute(
+                "INSERT INTO veiculos (placa, modelo, setor) VALUES (?, ?, ?)",
+                (placa, modelo, setor)
+            )
+            conn.commit()
+            flash("Veículo cadastrado com sucesso!", "success")
+        except Exception:
+            flash("Placa já cadastrada!", "error")
+        finally:
+            conn.close()
+
+        return redirect(url_for("veiculos"))
+
+    veiculos = conn.execute("SELECT * FROM veiculos").fetchall()
+    conn.close()
+
+    return render_template("veiculos.html", veiculos=veiculos)
 
 
 @app.route('/entrada', methods=['GET', 'POST'])
