@@ -70,3 +70,24 @@ Novas funcionalidades planejadas:
 
 Este projeto é de uso educacional e faz parte do meu portfólio de estudos.
 
+## ▶️ Como executar o projeto
+
+```bash
+# Clonar o repositório
+git clone https://github.com/alessandrocamargo/devcontrol.git
+
+# Acessar a pasta
+cd devcontrol
+
+# Criar ambiente virtual
+python -m venv venv
+
+# Ativar ambiente virtual
+venv\Scripts\activate  # Windows
+source venv/bin/activate  # Linux/Mac
+
+# Instalar dependências
+pip install -r requirements.txt
+
+# Executar aplicação
+python app.py
