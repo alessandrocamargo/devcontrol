@@ -18,7 +18,9 @@
         </div>
         <div class="card">
             <h3>Veículos no Pátio</h3>
-            <p>{{ veiculos_patio }}</p>
+            <p class="{% if veiculos_patio < 0 %}danger{% else %}ok{% endif %}">
+                {{ veiculos_patio }}
+            </p>
         </div>
     </div>
 

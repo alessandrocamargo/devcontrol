@@ -1,4 +1,4 @@
-# DevControl 📊🚗
+# DevControl – Vehicle Access Control System 📊🚗
 
 Sistema web desenvolvido para **controle de entrada e saída de veículos internos de uma empresa**, com foco em organização, registro de dados e visualização das informações.
 
@@ -24,7 +24,7 @@ Este projeto foi criado como **projeto âncora de estudos**, aplicando conceitos
 - **HTML5**
 - **CSS3**
 - **JavaScript**
-- **SQLite** (ou outro banco, se estiver usando)
+- **SQLite** 
 - **Git & GitHub**
 
 ---
