@@ -83,3 +83,29 @@ table tr:hover {
     font-weight: bold;
     margin-top: 10px;
 }
+
+.dashboard {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  width: 180px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.card p {
+  font-size: 28px;
+  font-weight: bold;
+}
