@@ -1,20 +1,10 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Entrada de Veículos</title>
-</head>
-<body>
-    <h1>Entrada de Veículo</h1>
-
+{% extends 'base.html' %}
+{% block title %}Entrada{% endblock %}
+{% block content %}
     <form method="POST">
         <input type="text" name="placa" placeholder="Placa" required><br><br>
         <input type="text" name="modelo" placeholder="Modelo" required><br><br>
         <input type="text" name="setor" placeholder="Setor" required><br><br>
-
         <button type="submit">Registrar Entrada</button>
     </form>
-
-    <a href="/registros">Ver registros</a>
-</body>
-</html>
+{% endblock %}

@@ -1,36 +1,30 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Registros</title>
-</head>
-<body>
-    <h1>Registros de Veículos</h1>
+{% extends 'base.html' %}
 
-    <table border="1" cellpadding="5">
+{% block title %}Registros{% endblock %}
+
+{% block content %}
+<h1>Registros de Veículos</h1>
+
+<table>
+    <thead>
         <tr>
-            <th>ID</th>
             <th>Placa</th>
             <th>Modelo</th>
             <th>Setor</th>
-            <th>Data/Hora</th>
+            <th>Data / Hora</th>
             <th>Tipo</th>
         </tr>
-
+    </thead>
+    <tbody>
         {% for r in registros %}
         <tr>
-            <td>{{ r.id }}</td>
             <td>{{ r.placa }}</td>
             <td>{{ r.modelo }}</td>
             <td>{{ r.setor }}</td>
             <td>{{ r.data_hora }}</td>
-            <td>{{ r.tipo }}</td>
+            <td>{{ r.tipo|capitalize }}</td>
         </tr>
         {% endfor %}
-    </table>
-
-    <br>
-    <a href="/entrada">Nova entrada</a> |
-    <a href="/saida">Nova saída</a>
-</body>
-</html>
+    </tbody>
+</table>
+{% endblock %}

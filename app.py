@@ -8,6 +8,10 @@ app = Flask(__name__)
 
 create_table()
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 @app.route('/entrada', methods=['GET', 'POST'])
 def entrada():
     if request.method == 'POST':
@@ -36,7 +40,7 @@ def saida():
 
         conn = get_db_connection()
         conn.execute(
-            'INSERT INTO registros_veiculos(placa, modelo, setor, data_hora, tipo) VALUES(?, ?, ?, ?, ?)', (placa, modelo, setor, data_hora, 'entrada')
+            'INSERT INTO registros_veiculos(placa, modelo, setor, data_hora, tipo) VALUES(?, ?, ?, ?, ?)', (placa, modelo, setor, data_hora, 'saida')
         )
         conn.commit()
         conn.close()
