@@ -1,8 +1,25 @@
 {% extends 'base.html' %}
 {% block title %}DevControl{% endblock %}
 {% block content %}
+    <h1>Bem-vindo ao DevControl</h1>
+
     <p>
-        Bem vindo ao DevControl
+        Sistema interno para controle de entrada e saída de veículos.
+        Utilize o menu acima para registrar ou consultar informações.
     </p>
+    <div style="display: flex; gap: 20px; margin-top: 30px;">
+        <div class="card">
+            <h3>Entradas</h3>
+            <p>{{ total_entradas }}</p>
+        </div>
+        <div class="card">
+            <h3>Saídas</h3>
+            <p>{{ total_saidas }}</p>
+        </div>
+        <div class="card">
+            <h3>No pátio</h3>
+            <p>{{ veiculos_patio }}</p>
+        </div>
+    </div>
     
 {% endblock %}

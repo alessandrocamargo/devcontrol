@@ -64,3 +64,22 @@ table tr:nth-child(even) {
 table tr:hover {
     background-color: #e5e7eb;
 }
+.card {
+    flex: 1;
+    background: #f9fafb;
+    padding: 20px;
+    border-radius: 6px;
+    text-align: center;
+    border: 1px solid #e5e7eb;
+}
+
+.card h3 {
+    margin: 0;
+    color: #374151;
+}
+
+.card p {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 10px;
+}

@@ -8,9 +8,34 @@ app = Flask(__name__)
 
 create_table()
 
+def get_dashboard_data():
+    conn = get_db_connection()
+
+    total_entradas = conn.execute(
+        "SELECT COUNT(*) FROM registros_veiculos WHERE tipo = 'entrada'"
+    ).fetchone()[0]
+
+    total_saidas = conn.execute(
+        "SELECT COUNT(*) FROM registros_veiculos WHERE tipo = 'saida'"
+    ).fetchone()[0]
+
+    conn.close()
+
+    veiculos_patio = total_entradas - total_saidas
+
+    return total_entradas, total_saidas, veiculos_patio
+
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    total_entradas, total_saidas, veiculos_patio = get_dashboard_data()
+    return render_template(
+        'index.html',
+        total_entradas=total_entradas,
+        total_saidas=total_saidas,
+        veiculos_patio=veiculos_patio
+    )
+
 
 @app.route('/entrada', methods=['GET', 'POST'])
 def entrada():
