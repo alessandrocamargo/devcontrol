@@ -8,24 +8,8 @@ app = Flask(__name__)
 
 app.secret_key = "devcontrol-secret"
 
-create_tables()
-
 def get_dashboard_data():
     conn = get_db_connection()
-
-    total_entradas = conn.execute(
-        "SELECT COUNT(*) FROM registros_veiculos WHERE tipo = 'entrada'"
-    ).fetchone()[0]
-
-    total_saidas = conn.execute(
-        "SELECT COUNT(*) FROM registros_veiculos WHERE tipo = 'saida'"
-    ).fetchone()[0]
-
-    conn.close()
-
-    veiculos_patio = total_entradas - total_saidas
-
-    return total_entradas, total_saidas, veiculos_patio
 
 
 @app.route('/')
@@ -54,7 +38,7 @@ def veiculos():
             )
             conn.commit()
             flash("Veículo cadastrado com sucesso!", "success")
-        except Exception:
+        except sqlite3.IntegrityError:
             flash("Placa já cadastrada!", "error")
         finally:
             conn.close()
