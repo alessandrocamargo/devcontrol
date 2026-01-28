@@ -11,16 +11,34 @@ app.secret_key = "devcontrol-secret"
 def get_dashboard_data():
     conn = get_db_connection()
 
+    total_veiculos = conn.execute(
+        "SELECT COUNT(*) FROM veiculos"
+    ).fetchone()[0]
+
+    veiculos_dentro = conn.execute(
+        "SELECT COUNT(*) FROM veiculos WHERE status = 'DENTRO'"
+    ).fetchone()[0]
+
+    veiculos_fora = conn.execute(
+        "SELECT COUNT(*) FROM veiculos WHERE status = 'FORA'"
+    ).fetchone()[0]
+
+    conn.close()
+
+    return total_veiculos, veiculos_dentro, veiculos_fora
+
+
 
 @app.route('/')
 def index():
-    total_entradas, total_saidas, veiculos_patio = get_dashboard_data()
+    total_veiculos, veiculos_dentro, veiculos_fora = get_dashboard_data()
     return render_template(
         'index.html',
-        total_entradas=total_entradas,
-        total_saidas=total_saidas,
-        veiculos_patio=veiculos_patio
+        total_veiculos=total_veiculos,
+        veiculos_dentro=veiculos_dentro,
+        veiculos_fora=veiculos_fora
     )
+
 
 @app.route("/veiculos", methods=["GET", "POST"])
 def veiculos():
