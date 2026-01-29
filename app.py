@@ -76,11 +76,13 @@ def entrada():
     if request.method == 'POST':
         veiculo_id = request.form['veiculo_id']
 
+        # registra movimentação
         conn.execute(
             "INSERT INTO movimentacoes (veiculo_id, tipo) VALUES (?, 'ENTRADA')",
             (veiculo_id,)
         )
 
+        # atualiza status do veículo
         conn.execute(
             "UPDATE veiculos SET status = 'DENTRO' WHERE id = ?",
             (veiculo_id,)
@@ -92,13 +94,43 @@ def entrada():
         flash('Entrada registrada com sucesso!', 'success')
         return redirect(url_for('entrada'))
 
+    # só veículos FORA podem entrar
     veiculos = conn.execute(
         "SELECT id, placa FROM veiculos WHERE status = 'FORA'"
     ).fetchall()
-    conn.close()
 
+    conn.close()
     return render_template('entrada.html', veiculos=veiculos)
 
+@app.route('/saida', methods=['GET', 'POST'])
+def saida():
+    conn = get_db_connection()
+
+    if request.method == 'POST':
+        veiculo_id = request.form['veiculo_id']
+
+        conn.execute(
+            "INSERT INTO movimentacoes (veiculo_id, tipo) VALUES (?, 'SAIDA')",
+            (veiculo_id,)
+        )
+
+        conn.execute(
+            "UPDATE veiculos SET status = 'FORA' WHERE id = ?",
+            (veiculo_id,)
+        )
+
+        conn.commit()
+        conn.close()
+
+        flash('Saída registrada com sucesso!', 'success')
+        return redirect(url_for('saida'))
+
+    veiculos = conn.execute(
+        "SELECT id, placa FROM veiculos WHERE status = 'DENTRO'"
+    ).fetchall()
+    conn.close()
+
+    return render_template('saida.html', veiculos=veiculos)
 
 
 if __name__ == "__main__":
