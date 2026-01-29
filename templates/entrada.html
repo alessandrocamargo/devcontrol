@@ -1,10 +1,18 @@
-{% extends 'base.html' %}
-{% block title %}Entrada{% endblock %}
-{% block content %}
-    <form method="POST">
-        <input type="text" name="placa" placeholder="Placa" required><br><br>
-        <input type="text" name="modelo" placeholder="Modelo" required><br><br>
-        <input type="text" name="setor" placeholder="Setor" required><br><br>
-        <button type="submit">Registrar Entrada</button>
-    </form>
-{% endblock %}
+<h2>Entrada de Veículo</h2>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% for category, message in messages %}
+    <p class="{{ category }}">{{ message }}</p>
+  {% endfor %}
+{% endwith %}
+
+<form method="post">
+  <select name="veiculo_id" required>
+    <option value="">Selecione o veículo</option>
+    {% for v in veiculos %}
+      <option value="{{ v.id }}">{{ v.placa }}</option>
+    {% endfor %}
+  </select>
+
+  <button type="submit">Registrar Entrada</button>
+</form>
