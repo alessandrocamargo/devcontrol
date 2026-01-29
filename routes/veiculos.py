@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 import sqlite3
-from database import get_db_connection
+from database.db import get_db_connection
 
 veiculos_bp = Blueprint("veiculos", __name__, url_prefix="/veiculos")
 
