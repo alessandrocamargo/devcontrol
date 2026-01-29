@@ -1,63 +1,52 @@
-from flask import Flask, render_template, request, redirect,url_for, flash
-import sqlite3
-from database import get_db_connection, create_tables
+from flask import Flask, render_template, request, redirect, url_for, flash
 from datetime import datetime
 
+from database import get_db_connection, create_tables
+from routes.dashboard import get_dashboard_data
 
 app = Flask(__name__)
-
 app.secret_key = "devcontrol-secret"
 
-def get_dashboard_data():
-    conn = get_db_connection()
-
-    total_veiculos = conn.execute(
-        "SELECT COUNT(*) FROM veiculos"
-    ).fetchone()[0]
-
-    veiculos_dentro = conn.execute(
-        "SELECT COUNT(*) FROM veiculos WHERE status = 'DENTRO'"
-    ).fetchone()[0]
-
-    veiculos_fora = conn.execute(
-        "SELECT COUNT(*) FROM veiculos WHERE status = 'FORA'"
-    ).fetchone()[0]
-
-    conn.close()
-
-    return total_veiculos, veiculos_dentro, veiculos_fora
+# Cria as tabelas ao iniciar o app
+create_tables()
 
 
-
-@app.route('/')
+# ======================
+# DASHBOARD
+# ======================
+@app.route("/")
 def index():
-    total_veiculos, veiculos_dentro, veiculos_fora = get_dashboard_data()
+    veiculos_dentro, entradas_hoje, saidas_hoje, total_veiculos = get_dashboard_data()
+
     return render_template(
-        'index.html',
-        total_veiculos=total_veiculos,
+        "index.html",
         veiculos_dentro=veiculos_dentro,
-        veiculos_fora=veiculos_fora
+        entradas_hoje=entradas_hoje,
+        saidas_hoje=saidas_hoje,
+        total_veiculos=total_veiculos
     )
 
 
+# ======================
+# VEÍCULOS
+# ======================
 @app.route("/veiculos", methods=["GET", "POST"])
 def veiculos():
     conn = get_db_connection()
 
     if request.method == "POST":
         placa = request.form["placa"]
-        marca = request.form["marca"]
         modelo = request.form["modelo"]
         setor = request.form["setor"]
 
         try:
             conn.execute(
-                "INSERT INTO veiculos (placa, marca, modelo, setor) VALUES (?, ?, ?, ?)",
-                (placa, marca, modelo, setor)
+                "INSERT INTO veiculos (placa, modelo, setor) VALUES (?, ?, ?)",
+                (placa, modelo, setor)
             )
             conn.commit()
             flash("Veículo cadastrado com sucesso!", "success")
-        except sqlite3.IntegrityError:
+        except Exception:
             flash("Placa já cadastrada!", "error")
         finally:
             conn.close()
@@ -69,68 +58,86 @@ def veiculos():
 
     return render_template("veiculos.html", veiculos=veiculos)
 
-@app.route('/entrada', methods=['GET', 'POST'])
+
+# ======================
+# ENTRADA
+# ======================
+@app.route("/entrada", methods=["GET", "POST"])
 def entrada():
     conn = get_db_connection()
 
-    if request.method == 'POST':
-        veiculo_id = request.form['veiculo_id']
+    if request.method == "POST":
+        veiculo_id = request.form["veiculo_id"]
+        data_hora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        # registra movimentação
         conn.execute(
-            "INSERT INTO movimentacoes (veiculo_id, tipo) VALUES (?, 'ENTRADA')",
-            (veiculo_id,)
+            """
+            INSERT INTO registros_veiculos (veiculo_id, data_hora, tipo)
+            VALUES (?, ?, 'entrada')
+            """,
+            (veiculo_id, data_hora)
         )
-
-        # atualiza status do veículo
-        conn.execute(
-            "UPDATE veiculos SET status = 'DENTRO' WHERE id = ?",
-            (veiculo_id,)
-        )
-
         conn.commit()
         conn.close()
 
-        flash('Entrada registrada com sucesso!', 'success')
-        return redirect(url_for('entrada'))
+        flash("Entrada registrada com sucesso!", "success")
+        return redirect(url_for("entrada"))
 
-    # só veículos FORA podem entrar
-    veiculos = conn.execute(
-        "SELECT id, placa FROM veiculos WHERE status = 'FORA'"
-    ).fetchall()
-
+    veiculos = conn.execute("SELECT * FROM veiculos").fetchall()
     conn.close()
-    return render_template('entrada.html', veiculos=veiculos)
 
-@app.route('/saida', methods=['GET', 'POST'])
+    return render_template("entrada.html", veiculos=veiculos)
+
+
+# ======================
+# SAÍDA
+# ======================
+@app.route("/saida", methods=["GET", "POST"])
 def saida():
     conn = get_db_connection()
 
-    if request.method == 'POST':
-        veiculo_id = request.form['veiculo_id']
+    if request.method == "POST":
+        veiculo_id = request.form["veiculo_id"]
+        data_hora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         conn.execute(
-            "INSERT INTO movimentacoes (veiculo_id, tipo) VALUES (?, 'SAIDA')",
-            (veiculo_id,)
+            """
+            INSERT INTO registros_veiculos (veiculo_id, data_hora, tipo)
+            VALUES (?, ?, 'saida')
+            """,
+            (veiculo_id, data_hora)
         )
-
-        conn.execute(
-            "UPDATE veiculos SET status = 'FORA' WHERE id = ?",
-            (veiculo_id,)
-        )
-
         conn.commit()
         conn.close()
 
-        flash('Saída registrada com sucesso!', 'success')
-        return redirect(url_for('saida'))
+        flash("Saída registrada com sucesso!", "success")
+        return redirect(url_for("saida"))
 
-    veiculos = conn.execute(
-        "SELECT id, placa FROM veiculos WHERE status = 'DENTRO'"
-    ).fetchall()
+    veiculos = conn.execute("SELECT * FROM veiculos").fetchall()
     conn.close()
 
-    return render_template('saida.html', veiculos=veiculos)
+    return render_template("saida.html", veiculos=veiculos)
+
+
+# ======================
+# REGISTROS
+# ======================
+@app.route("/registros")
+def registros():
+    conn = get_db_connection()
+
+    registros = conn.execute(
+        """
+        SELECT r.id, v.placa, v.modelo, v.setor, r.data_hora, r.tipo
+        FROM registros_veiculos r
+        JOIN veiculos v ON v.id = r.veiculo_id
+        ORDER BY r.data_hora DESC
+        """
+    ).fetchall()
+
+    conn.close()
+
+    return render_template("registros.html", registros=registros)
 
 
 if __name__ == "__main__":

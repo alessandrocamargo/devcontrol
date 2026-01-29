@@ -7,8 +7,31 @@
         Sistema interno para controle de entrada e saída de veículos.
         Utilize o menu acima para registrar ou consultar informações.
     </p>
-   <div class="dashboard">
-        
+   <h1>Dashboard</h1>
+    <p>Visão geral do controle de veículos</p>
+
+    <div class="dashboard-cards">
+
+        <div class="card">
+            <h3>Veículos no pátio</h3>
+            <span>{{ veiculos_dentro }}</span>
+        </div>
+
+        <div class="card">
+            <h3>Entradas hoje</h3>
+            <span>{{ entradas_hoje }}</span>
+        </div>
+
+        <div class="card">
+            <h3>Saídas hoje</h3>
+            <span>{{ saidas_hoje }}</span>
+        </div>
+
+        <div class="card">
+            <h3>Total de veículos</h3>
+            <span>{{ total_veiculos }}</span>
+        </div>
+
     </div>
 
     
