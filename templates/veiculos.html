@@ -1,4 +1,7 @@
-<h2>Cadastro de Veículos</h2>
+{% extends 'base.html' %}
+{% block title %}Cadastro de Veículos{% endblock %}
+{% block content %}
+  <h2>Cadastro de Veículos</h2>
 
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
@@ -7,31 +10,30 @@
     {% endfor %}
   {% endif %}
 {% endwith %}
-
-<form method="POST">
-  <input type="text" name="placa" placeholder="Placa" required>
-  <input type="text" name="modelo" placeholder="Modelo" required>
-  <input type="text" name="setor" placeholder="Setor" required>
-  <button type="submit">Cadastrar</button>
-</form>
-
-<hr>
-
-<table>
-  <thead>
-    <tr>
-      <th>Placa</th>
-      <th>Modelo</th>
-      <th>Setor</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for v in veiculos %}
-    <tr>
-      <td>{{ v.placa }}</td>
-      <td>{{ v.modelo }}</td>
-      <td>{{ v.setor }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+  <form method="POST">
+    <input type="text" name="placa" placeholder="Placa" required>
+    <input type="text" name="marca" placeholder="Marca" required>
+    <input type="text" name="modelo" placeholder="Modelo" required>
+    <input type="text" name="setor" placeholder="Setor" required>
+    <button type="submit">Cadastrar</button>
+  </form>
+  <hr>
+  <table>
+    <thead>
+      <tr>
+        <th>Placa</th>
+        <th>Modelo</th>
+        <th>Setor</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for v in veiculos %}
+        <tr>
+          <td>{{ v.placa }}</td>
+          <td>{{ v.modelo }}</td>
+          <td>{{ v.setor }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}DevControl{% endblock %}
+{% block content %}
 <h2>Entrada de Veículo</h2>
 
 {% with messages = get_flashed_messages(with_categories=true) %}
@@ -16,3 +19,4 @@
 
   <button type="submit">Registrar Entrada</button>
 </form>
+{% endblock %}

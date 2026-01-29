@@ -46,13 +46,14 @@ def veiculos():
 
     if request.method == "POST":
         placa = request.form["placa"]
+        marca = request.form["marca"]
         modelo = request.form["modelo"]
         setor = request.form["setor"]
 
         try:
             conn.execute(
-                "INSERT INTO veiculos (placa, modelo, setor) VALUES (?, ?, ?)",
-                (placa, modelo, setor)
+                "INSERT INTO veiculos (placa, marca, modelo, setor) VALUES (?, ?, ?, ?)",
+                (placa, marca, modelo, setor)
             )
             conn.commit()
             flash("Veículo cadastrado com sucesso!", "success")
