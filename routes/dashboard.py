@@ -1,44 +1,14 @@
-from database import get_db_connection
+from flask import Blueprint, render_template
+from services.dashboard_service import get_dashboard_data
 
-def get_dashboard_data():
-    conn = get_db_connection()
+dashboard_bp = Blueprint("dashboard", __name__)
 
-    total_veiculos = conn.execute(
-        "SELECT COUNT(*) FROM veiculos"
-    ).fetchone()[0]
-
-    entradas_hoje = conn.execute(
-        """
-        SELECT COUNT(*)
-        FROM registros_veiculos
-        WHERE tipo = 'entrada'
-        AND DATE(data_hora) = DATE('now', 'localtime')
-        """
-    ).fetchone()[0]
-
-    saidas_hoje = conn.execute(
-        """
-        SELECT COUNT(*)
-        FROM registros_veiculos
-        WHERE tipo = 'saida'
-        AND DATE(data_hora) = DATE('now', 'localtime')
-        """
-    ).fetchone()[0]
-
-    veiculos_dentro = conn.execute(
-        """
-        SELECT COUNT(*)
-        FROM veiculos v
-        WHERE (
-            SELECT r.tipo
-            FROM registros_veiculos r
-            WHERE r.veiculo_id = v.id
-            ORDER BY r.data_hora DESC
-            LIMIT 1
-        ) = 'entrada'
-        """
-    ).fetchone()[0]
-
-    conn.close()
-
-    return veiculos_dentro, entradas_hoje, saidas_hoje, total_veiculos
+@dashboard_bp.route("/")
+def index():
+    veiculos_dentro, entradas_hoje, saidas_hoje = get_dashboard_data()
+    return render_template(
+        "index.html",
+        veiculos_dentro=veiculos_dentro,
+        entradas_hoje=entradas_hoje,
+        saidas_hoje=saidas_hoje
+    )

@@ -8,31 +8,30 @@
         Utilize o menu acima para registrar ou consultar informações.
     </p>
    <h1>Dashboard</h1>
-    <p>Visão geral do controle de veículos</p>
 
-    <div class="dashboard-cards">
+<div class="cards">
+  <div class="card">Entradas hoje: <strong>{{ entradas }}</strong></div>
+  <div class="card">Saídas hoje: <strong>{{ saidas }}</strong></div>
+  <div class="card">Veículos no pátio: <strong>{{ no_patio }}</strong></div>
+</div>
 
-        <div class="card">
-            <h3>Veículos no pátio</h3>
-            <span>{{ veiculos_dentro }}</span>
-        </div>
+<h2>Status dos veículos</h2>
 
-        <div class="card">
-            <h3>Entradas hoje</h3>
-            <span>{{ entradas_hoje }}</span>
-        </div>
+<table border="1" cellpadding="5">
+  <tr>
+    <th>Placa</th>
+    <th>Modelo</th>
+    <th>Status</th>
+  </tr>
+  {% for v in status_veiculos %}
+  <tr>
+    <td>{{ v.placa }}</td>
+    <td>{{ v.modelo }}</td>
+    <td>{{ v.status }}</td>
+  </tr>
+  {% endfor %}
+</table>
 
-        <div class="card">
-            <h3>Saídas hoje</h3>
-            <span>{{ saidas_hoje }}</span>
-        </div>
-
-        <div class="card">
-            <h3>Total de veículos</h3>
-            <span>{{ total_veiculos }}</span>
-        </div>
-
-    </div>
 
     
 {% endblock %}
