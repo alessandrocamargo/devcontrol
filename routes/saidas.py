@@ -10,6 +10,7 @@ def saida():
 
     if request.method == "POST":
         veiculo_id = request.form["veiculo_id"]
+        km_saida = request.form["km_saida"]
         data_hora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         # 🔒 Regra de negócio: não sair sem entrada
@@ -30,10 +31,10 @@ def saida():
 
         conn.execute(
             """
-            INSERT INTO registros_veiculos (veiculo_id, data_hora, tipo)
-            VALUES (?, ?, 'saida')
+            INSERT INTO registros_veiculos (veiculo_id, data_hora, tipo, km_saida)
+            VALUES (?, ?, 'saida', ?)
             """,
-            (veiculo_id, data_hora)
+            (veiculo_id, data_hora, km_saida)
         )
         conn.commit()
         conn.close()

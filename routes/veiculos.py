@@ -64,4 +64,4 @@ def criar_veiculo():
     finally:
         conn.close()
 
-    return redirect(url_for("veiculos.listar_veiculos"))
+    return redirect(url_for("veiculos.novo_veiculo"))

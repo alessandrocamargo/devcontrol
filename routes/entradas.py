@@ -11,14 +11,15 @@ def entrada():
 
     if request.method == "POST":
         veiculo_id = request.form["veiculo_id"]
+        km_entrada = request.form["km_entrada"]
         data_hora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         conn.execute(
             """
-            INSERT INTO registros_veiculos (veiculo_id, data_hora, tipo)
-            VALUES (?, ?, 'entrada')
+            INSERT INTO registros_veiculos (veiculo_id, data_hora, tipo, km_entrada)
+            VALUES (?, ?, 'entrada',?)
             """,
-            (veiculo_id, data_hora)
+            (veiculo_id, data_hora, km_entrada)
         )
         conn.commit()
         conn.close()

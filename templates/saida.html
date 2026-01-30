@@ -9,15 +9,18 @@
   {% endfor %}
 {% endwith %}
 
-<form method="post">
+<div class="form-container">
+  <form method="post">
+  <label for="">Placa do Veículo</label>
   <select name="veiculo_id" required>
     <option value="">Selecione o veículo</option>
     {% for v in veiculos %}
       <option value="{{ v.id }}">{{ v.placa }}</option>
     {% endfor %}
   </select>
-
+  <label for="">Quilometragem na Saída</label>
+  <input type="number" name="km_saida" placeholder="Quilometragem na saída" required>
   <button type="submit">Registrar Saída</button>
-</form>
+</div>
 
 {% endblock %}

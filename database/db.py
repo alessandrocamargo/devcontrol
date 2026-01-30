@@ -23,11 +23,39 @@ def create_tables():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS registros_veiculos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            placa TEXT NOT NULL,
+            placa TEXT,
+            veiculo_id INTEGER,
             data_hora TEXT NOT NULL,
-            tipo TEXT NOT NULL
+            tipo TEXT NOT NULL,
+            km_entrada INTEGER,
+            km_saida INTEGER
         )
     """)
+
+    # Ensure migration: add missing columns if the table was created previously
+    cursor.execute("PRAGMA table_info('registros_veiculos')")
+    existing_cols = {row[1] for row in cursor.fetchall()}  # row[1] is column name
+
+    # Add veiculo_id if missing (used as FK to veiculos.id)
+    if 'veiculo_id' not in existing_cols:
+        try:
+            cursor.execute("ALTER TABLE registros_veiculos ADD COLUMN veiculo_id INTEGER")
+        except Exception:
+            pass
+
+    # Add km_entrada if missing
+    if 'km_entrada' not in existing_cols:
+        try:
+            cursor.execute("ALTER TABLE registros_veiculos ADD COLUMN km_entrada INTEGER")
+        except Exception:
+            pass
+
+    # Add km_saida if missing
+    if 'km_saida' not in existing_cols:
+        try:
+            cursor.execute("ALTER TABLE registros_veiculos ADD COLUMN km_saida INTEGER")
+        except Exception:
+            pass
 
     conn.commit()
     conn.close()
