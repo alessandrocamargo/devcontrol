@@ -1,49 +1,67 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
 import sqlite3
+from flask import Blueprint, render_template, request, redirect, url_for, flash
+
 from database.db import get_db_connection
+from services.veiculo_status_service import listar_veiculos_com_status
 
-veiculos_bp = Blueprint("veiculos", __name__, url_prefix="/veiculos")
+veiculos_bp = Blueprint(
+    "veiculos",
+    __name__,
+    url_prefix="/veiculos"
+)
+
+@veiculos_bp.route("/menu",methods=["GET"])
+def menu_veiculos():
+    return render_template("veiculos/menu.html")
+
+# ==============================
+# LISTAR VEÍCULOS + STATUS
+# ==============================
+@veiculos_bp.route("/", methods=["GET"])
+def listar_veiculos():
+    veiculos = listar_veiculos_com_status()
+    return render_template("veiculos/listar.html", veiculos=veiculos)
 
 
-@veiculos_bp.route("/", methods=["GET", "POST"])
-def veiculos():
+# ==============================
+# FORMULÁRIO DE CADASTRO
+# ==============================
+@veiculos_bp.route("/novo", methods=["GET"])
+def novo_veiculo():
+    return render_template("veiculos/novo.html")
+
+
+# ==============================
+# SALVAR VEÍCULO
+# ==============================
+@veiculos_bp.route("/", methods=["POST"])
+def criar_veiculo():
+    placa = request.form["placa"]
+    modelo = request.form["modelo"]
+    setor = request.form["setor"]
+
     conn = get_db_connection()
 
-    if request.method == "POST":
-        placa = request.form.get("placa")
-        modelo = request.form.get("modelo")
-        setor = request.form.get("setor")
+    try:
+        conn.execute(
+            """
+            INSERT INTO veiculos (placa, modelo, setor)
+            VALUES (?, ?, ?)
+            """,
+            (placa, modelo, setor)
+        )
+        conn.commit()
+        flash("Veículo cadastrado com sucesso!", "success")
 
-        if not placa or not modelo or not setor:
-            flash("Preencha todos os campos.", "error")
-            conn.close()
-            return redirect(url_for("veiculos.veiculos"))
+    except sqlite3.IntegrityError:
+        # erro REAL de placa duplicada
+        flash("Já existe um veículo cadastrado com essa placa.", "warning")
 
-        try:
-            conn.execute(
-                """
-                INSERT INTO veiculos (placa, modelo, setor)
-                VALUES (?, ?, ?)
-                """,
-                (placa.upper(), modelo, setor)
-            )
-            conn.commit()
-            flash("Veículo cadastrado com sucesso!", "success")
+    except Exception as e:
+        # erro inesperado (não mascarar!)
+        flash(f"Erro ao cadastrar veículo: {e}", "danger")
 
-        except sqlite3.IntegrityError:
-            flash("Já existe um veículo cadastrado com essa placa.", "error")
+    finally:
+        conn.close()
 
-        except Exception as e:
-            flash(f"Erro ao cadastrar veículo: {e}", "error")
-
-        finally:
-            conn.close()
-
-        return redirect(url_for("veiculos.veiculos"))
-
-    veiculos = conn.execute(
-        "SELECT * FROM veiculos ORDER BY id DESC"
-    ).fetchall()
-    conn.close()
-
-    return render_template("veiculos.html", veiculos=veiculos)
+    return redirect(url_for("veiculos.listar_veiculos"))
