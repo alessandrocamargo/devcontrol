@@ -1,93 +1,63 @@
-# DevControl – Vehicle Access Control System 📊🚗
+# 🚗 DevControl
 
-Sistema web desenvolvido para **controle de entrada e saída de veículos internos de uma empresa**, com foco em organização, registro de dados e visualização das informações.
+Sistema web para **controle de entrada e saída de veículos**, desenvolvido em **Python com Flask** e **SQLite**, com foco em organização, boas práticas e arquitetura escalável.
 
-Este projeto foi criado como **projeto âncora de estudos**, aplicando conceitos de back-end, front-end e boas práticas de desenvolvimento, com o objetivo de evoluir para um sistema real utilizado em ambiente corporativo.
+Projeto criado como estudo prático para evolução em desenvolvimento backend e aplicações web.
 
 ---
 
-## 🚀 Funcionalidades
+## 📌 Funcionalidades
 
-- Registro de **entrada de veículos**
-- Registro de **saída de veículos**
-- Associação do veículo a um **setor da empresa**
-- Registro automático de **data e hora**
-- Listagem dos registros em tela
-- Estrutura preparada para futuras evoluções (relatórios, autenticação, etc.)
+- 📋 Cadastro de veículos
+- 🚪 Registro de **entrada** e **saída**
+- 📊 Dashboard com indicadores:
+  - Veículos no pátio
+  - Entradas do dia
+  - Saídas do dia
+- 🧭 Menu de veículos com UX em **cards**
+- ⚙️ Estrutura modular com **Blueprints**
+
+---
+
+## 🧱 Arquitetura do Projeto
+
+<img width="270" height="753" alt="image" src="https://github.com/user-attachments/assets/c1256a70-17e8-4a9d-b242-7e4d0ca64b46" />
+
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **Python**
-- **Flask**
-- **HTML5**
-- **CSS3**
-- **JavaScript**
-- **SQLite** 
-- **Git & GitHub**
+- Python 3
+- Flask
+- SQLite
+- HTML5 / CSS3
+- Jinja2
+- Git / GitHub
 
 ---
-
-## 📂 Estrutura do Projeto
-
-<img width="186" height="450" alt="image" src="https://github.com/user-attachments/assets/3bed4eeb-4cab-4f08-b866-483f38c7a8f3" />
-
-
----
-
-## 🧠 Objetivo do Projeto
-
-- Consolidar conhecimentos em **Flask**
-- Praticar integração entre **front-end e back-end**
-- Simular um sistema utilizado em **ambiente empresarial**
-- Criar um projeto relevante para **portfólio profissional**
-
----
-
-## 📌 Status do Projeto
-
-🚧 **Em desenvolvimento**
-
-Novas funcionalidades planejadas:
-- Autenticação de usuários
-- Relatórios em Excel/PDF
-- Dashboard com indicadores
-- Controle por nível de acesso
-
----
-
-## 👨‍💻 Autor
-
-**Alessandro André Sanches Gonzaga de Camargo**
-
-- GitHub: https://github.com/alessandrocamargo  
-- Portfólio: https://sancamargosan.github.io/portfolio/
-
----
-
-## 📄 Licença
-
-Este projeto é de uso educacional e faz parte do meu portfólio de estudos.
 
 ## ▶️ Como executar o projeto
 
 ```bash
-# Clonar o repositório
-git clone https://github.com/alessandrocamargo/devcontrol.git
+# Clone o repositório
+git clone https://github.com/seu-usuario/devcontrol.git
 
-# Acessar a pasta
+# Acesse a pasta
 cd devcontrol
 
-# Criar ambiente virtual
+# Crie o ambiente virtual
 python -m venv venv
 
-# Ativar ambiente virtual
-venv\Scripts\activate  # Windows
-source venv/bin/activate  # Linux/Mac
+# Ative o ambiente
+# Windows
+venv\Scripts\activate
+# Linux / Mac
+source venv/bin/activate
 
-# Instalar dependências
-pip install -r requirements.txt
+# Instale as dependências
+pip install flask
 
-# Executar aplicação
+# Execute o projeto
 python app.py
+
