@@ -13,6 +13,7 @@ def entrada():
         veiculo_id = request.form["veiculo_id"]
         km_entrada = request.form["km_entrada"]
         data_hora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
 
         conn.execute(
             """

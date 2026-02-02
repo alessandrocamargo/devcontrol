@@ -1,24 +1,55 @@
 {% extends 'base.html' %}
-{% block title %}DevControl{% endblock %}
+{% block title %}Devcontrol{% endblock %}
 {% block content %}
-<h1>Dashboard</h1>
-
-<div style="display:flex; gap:20px; margin-top:30px">
-
+    <h2 class="page-title">📊 Dashboard</h2>
+    <section class="dashboard-grid">
+        <div class="card highlight">
+            <span class="icon">🚗</span>
+            <div>
+                <h4>No pátio agora</h4>
+                <p class="value">{{ veiculos_dentro }}</p>
+                <small>veículos ativos</small>
+            </div>
+        </div>
     <div class="card">
-        <h3>🚗 Veículos no pátio</h3>
-        <p>{{ veiculos_patio }}</p>
+    <span class="icon">📥</span>
+    <div>
+      <h4>Entradas hoje</h4>
+      <p class="value">{{ entradas_hoje }}</p>
+      <small>desde 00:00</small>
     </div>
+  </div>
 
-    <div class="card">
-        <h3>📥 Entradas hoje</h3>
-        <p>{{ entradas_hoje }}</p>
+  <div class="card">
+    <span class="icon">📤</span>
+    <div>
+      <h4>Saídas hoje</h4>
+      <p class="value">{{ saidas_hoje }}</p>
+      <small>desde 00:00</small>
     </div>
+  </div>
 
-    <div class="card">
-        <h3>📤 Saídas hoje</h3>
-        <p>{{ saidas_hoje }}</p>
+  <div class="card">
+    <span class="icon">📏</span>
+    <div>
+      <h4>KM rodados</h4>
+      <p class="value">{{ km_rodados }} km</p>
+      <small>hoje</small>
     </div>
+  </div>
+</section>
 
-</div>
+<section class="quick-actions">
+  <a href="/entradas" class="action-card success">
+    ➕ Registrar entrada
+  </a>
+
+  <a href="/saidas" class="action-card danger">
+    ➖ Registrar saída
+  </a>
+
+  <a href="/veiculos/menu" class="action-card info">
+    🚘 Gerenciar veículos
+  </a>
+</section>
 {% endblock %}
