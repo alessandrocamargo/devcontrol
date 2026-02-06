@@ -7,7 +7,7 @@
             <span class="icon">🚗</span>
             <div>
                 <h4>No pátio agora</h4>
-                <p class="value">{{ veiculos_dentro }}</p>
+                <div class="value">{{ veiculos_dentro }}</div>
                 <small>veículos ativos</small>
             </div>
         </div>
@@ -15,7 +15,7 @@
     <span class="icon">📥</span>
     <div>
       <h4>Entradas hoje</h4>
-      <p class="value">{{ entradas_hoje }}</p>
+      <div class="value">{{ entradas_hoje }}</div>
       <small>desde 00:00</small>
     </div>
   </div>
@@ -24,7 +24,7 @@
     <span class="icon">📤</span>
     <div>
       <h4>Saídas hoje</h4>
-      <p class="value">{{ saidas_hoje }}</p>
+      <div class="value">{{ saidas_hoje }}</div>
       <small>desde 00:00</small>
     </div>
   </div>
@@ -33,23 +33,23 @@
     <span class="icon">📏</span>
     <div>
       <h4>KM rodados</h4>
-      <p class="value">{{ km_rodados }} km</p>
+      <div class="value">{{ km_rodados }} km</div>
       <small>hoje</small>
     </div>
   </div>
 </section>
 
 <section class="quick-actions">
-  <a href="/entradas" class="action-card success">
+  <a href="/entrada" class="action-card success">
     ➕ Registrar entrada
   </a>
 
-  <a href="/saidas" class="action-card danger">
+  <a href="/saida" class="action-card danger">
     ➖ Registrar saída
   </a>
 
-  <a href="/veiculos/menu" class="action-card info">
-    🚘 Gerenciar veículos
+  <a href="{{ url_for('veiculos.novo_veiculo') }}" class="action-card info">
+    🚘 Cadastrar Veiculo
   </a>
 </section>
 {% endblock %}

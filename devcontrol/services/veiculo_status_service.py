@@ -1,4 +1,4 @@
-from database.db import get_db_connection
+from devcontrol.database.db import get_db_connection
 
 def listar_veiculos_com_status():
     conn = get_db_connection()

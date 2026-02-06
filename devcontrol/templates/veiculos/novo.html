@@ -10,11 +10,17 @@
     {% endfor %}
   {% endif %}
 {% endwith %}
+<div class="form-container">
   <form method="POST" action="{{ url_for('veiculos.criar_veiculo') }}">
     <input type="text" name="placa" placeholder="Placa" required>
     <input type="text" name="marca" placeholder="Marca" required>
     <input type="text" name="modelo" placeholder="Modelo" required>
     <input type="text" name="setor" placeholder="Setor" required>
-    <button type="submit">Cadastrar</button>
+    <button type="submit" class="action-card success">Cadastrar Veículo</button>
+  <a href="/" class="action-card info">
+    Voltar para Inicio
+  </a>
   </form>
+</div>
+  
 {% endblock %}

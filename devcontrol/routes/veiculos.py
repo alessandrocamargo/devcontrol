@@ -1,8 +1,8 @@
 import sqlite3
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 
-from database.db import get_db_connection
-from services.veiculo_status_service import listar_veiculos_com_status
+from devcontrol.database.db import get_db_connection
+from devcontrol.services.veiculo_status_service import listar_veiculos_com_status
 
 veiculos_bp = Blueprint(
     "veiculos",

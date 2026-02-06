@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-{% block title %}Saída{% endblock %}
+{% block title %}DevControl{% endblock %}
 {% block content %}
-    <h2>Saída de Veículo</h2>
+<h2>Entrada de Veículo</h2>
 
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% for category, message in messages %}
@@ -18,9 +18,13 @@
       <option value="{{ v.id }}">{{ v.placa }}</option>
     {% endfor %}
   </select>
-  <label for="">Quilometragem na Saída</label>
-  <input type="number" name="km_saida" placeholder="Quilometragem na saída" required>
-  <button type="submit">Registrar Saída</button>
+  <label for="">Quilometragem na Entrada</label>
+  <input type="number" name="km_entrada" placeholder="Quilometragem na entrada" required>
+  <button type="submit" class="success">Registrar Entrada</button>
+  <a href="/" class="action-card info">
+    Voltar para Inicio
+  </a>
+</form>
 </div>
 
 {% endblock %}

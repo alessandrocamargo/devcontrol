@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from datetime import datetime
-from database.db import get_db_connection
+from devcontrol.database.db import get_db_connection
 
 
 entradas_bp = Blueprint("entradas", __name__)
