@@ -32,6 +32,20 @@ def create_tables():
         )
     """)
 
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS registros_portaria (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        documento TEXT,
+        empresa TEXT,
+        tipo TEXT NOT NULL, -- visitante | prestador
+        data_entrada TEXT NOT NULL,
+        data_saida TEXT,
+        status TEXT NOT NULL -- dentro | saiu
+    )
+""")
+
+
     # Ensure migration: add missing columns if the table was created previously
     cursor.execute("PRAGMA table_info('registros_veiculos')")
     existing_cols = {row[1] for row in cursor.fetchall()}  # row[1] is column name
