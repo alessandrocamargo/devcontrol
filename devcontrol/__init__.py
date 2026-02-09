@@ -15,6 +15,7 @@ def create_app():
     from devcontrol.routes.entradas import entradas_bp
     from devcontrol.routes.saidas import saidas_bp
     from devcontrol.routes.pessoas import pessoas_bp
+    from devcontrol.routes.portaria import portaria_bp
 
     # REGISTRA
     app.register_blueprint(dashboard_bp)
@@ -22,6 +23,7 @@ def create_app():
     app.register_blueprint(veiculos_bp)
     app.register_blueprint(saidas_bp)
     app.register_blueprint(pessoas_bp)
+    app.register_blueprint(portaria_bp)
 
 
     return app

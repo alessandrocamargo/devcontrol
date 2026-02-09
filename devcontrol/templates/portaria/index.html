@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Portaria{% endblock %}
+{% block content %}
+    <h2>Portaria</h2>
+    <form action="/portaria/entrada" method="post">
+        <input type="text" name="nome" placeholder="Nome" required>
+        <input type="text" name="documento" placeholder="Documento" required>
+        <input type="text" name="empresa" placeholder="Empresa" required>
+        <select name="tipo">
+            <option value="visitante">Visitante</option>
+            <option value="prestador">Prestador de Serviço</option>
+        </select>
+        <button type="submit">Registrar Entrada</button>
+    </form>
+    <hr>
+    <ul>
+        {% for r in registros %}
+            <li>
+                {{ r.nome }} - {{ r.tipo }} - {{ r.status }}
+                {% if r.status == 'dentro' %}
+                    <a href="/portaria/saida/{{ r.id }}">Registrar Saída</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+
+
+
+
+
+
+
+
+{% endblock %}
